@@ -1,0 +1,31 @@
+{% load static %}
+<head>
+    <link href="{% static 'top_qa_app/style.css' %}" rel="stylesheet"/>
+</head>
+<div class="body">
+    <div>
+      <img src="{% static 'top_qa_app/logo.png' %}"/>
+    </div>
+    <label class="text">Master Contact Check </label>
+</div>
+<body>
+    <h1 class='text_2'> Please login  below:</h1>
+    <form action="{% url 'admin_valid' %} " method="post" class="box_1">
+      <div class="box_2">
+            {% if msg %}
+            <p ><font size=3px, color='red',text-align='center'>  {{msg}} </font></p>
+            {% endif %}
+        <div>
+          <input class="input_box" type="string" size="30" name="login_name" placeholder="Username">
+        </div>
+        <div>
+          <input class="input_box" type="password" size="30" name="password" placeholder="Password" >
+        </div>
+      </div>
+      <div>
+        <input type="submit" value="Login" class="button_1">
+      </div>
+        {% csrf_token %}
+    </form>
+
+</body>

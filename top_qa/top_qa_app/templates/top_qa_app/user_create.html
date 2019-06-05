@@ -1,0 +1,46 @@
+{% load static %}
+<head>
+    <link href="{% static 'top_qa_app/style.css' %}" rel="stylesheet"/>
+</head>
+<div class="body">
+    <div>
+      <img src="{% static 'top_qa_app/logo.png' %}"/>
+    </div>
+    <label class="text">Master Contact Check </label>
+</div>
+<table class='table'>
+  <form  action="{% url 'newuser_save' %}" method='post'>
+    {% csrf_token %}
+    <tr class='tr'>
+        <td class='td_1'>Username</label></td>
+        <td class='td_1'><input class="input_box" type="text" size="30"  name="username">{% if username_msg%}{{username_msg}}{% endif %}</td>
+    </tr>
+    <tr class='tr'>
+        <td class='td_1'>Password</label>
+        <td class='td_1'><input class="input_box" type="text" size="30" name="password" >{% if password_msg%}{{password_msg}}{% endif %}</td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Can Edit</td>
+      <td class='td_1'><input class="checkbox"  type='checkbox' id="editCheck" size="30" name="canedit" checked></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Can Add</td>
+
+        <td class='td_1'><input class="checkbox" type='checkbox' id="addCheck"   size="30" name="canadd"  checked></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Is Admin</td>
+
+        <td class='td_1'><input class="checkbox" type='checkbox' id="adminCheck"  size="30" name="isadmin" checked></td>
+    </tr>
+    <tr>
+      <td>
+      <input  type="submit" class='button_edit' name='edit' value='Save'>
+      </td>
+      <td>
+        <a href="/admin-login/select-user/"> <input type="button" class='button_edit' value='Cancel'></a>
+      </td>
+    </tr>
+  </form>
+
+</table>

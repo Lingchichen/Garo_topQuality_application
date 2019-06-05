@@ -1,0 +1,128 @@
+
+{% load static %}
+<head>
+
+    <link href="{% static 'top_qa_app/style.css' %}" rel="stylesheet"/>
+</head>
+<div class="body">
+    <div>
+      <img src="{% static 'top_qa_app/logo.png' %}"/>
+    </div>
+    <label class="text">Master Contact Check </label>
+</div>
+
+<table class='table'>
+  {% for data in contact %}
+  <form action="{% url 'save'  id=data.id  %}" method='get'>
+
+    {% csrf_token %}
+    <tr class='tr'>
+        <td class='td_1'>First Name </label></td>
+        <td class='td_1'><input class="input_box" type="text" size="30"  name="FirstName" value={{data.first_name}}></td>
+    </tr>
+    <tr class='tr'>
+        <td class='td_1'>Last Name</label>
+        <td class='td_1'><input class="input_box" type="text" size="30" name="LastName" value={{data.last_name}}></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Job Title</td>
+      <td class='td_1'><input class="input_box" type="text" size="30" name="JobTitle" value={{data.job_title}}></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Company Name</td>
+      <td class='td_1'><input class="input_box" type="text" size="30" name="CompanyName" value={{data.company_name}}></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Email</td>
+      <td class='td_1'><input class="input_box" type="text" size="30" name="Emaiil" value={{data.email}}></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Phone</td>
+      <td class='td_1'><input class="input_box" type="text" size="30" name="Phone"  value={{data.phone}}></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Category</td>
+      <td class='td_1'>
+        <select name='Category' value={{data.category}}>
+          <option value="FB Bakery">FB Bakery</option>
+          <option value="FB Beverages(Alcohol)">FB Beverages(Alcohol)</option>
+          <option value="FB Beverages(Non-Alcohol)">FB Beverages(Non-Alcohol)</option>
+          <option value="FB Canned Food">FB Canned Food</option>
+          <option value="FB Dairy">FB Dairy</option>
+          <option value="FB Flavours and Ingredients">FB Flavours and Ingredients</option>
+          <option value="FB Food and Beverage">FB Food and Beverage</option>
+          <option value="FB Frozen">FB Frozen</option>
+          <option value="FB Meat/Seafood">FB Meat/Seafood</option>
+          <option value="FB Nutritional">FB Nutritional</option>
+          <option value="FB Organics">FB Organics</option>
+          <option value="FB Packaging (General)">FB Packaging (General)</option>
+          <option value="FB Pet Food">FB Pet Food</option>
+          <option value="FB Snacks/Confectionary">FB Snacks/Confectionary</option>
+          <option value="FB Vegetables and Produce">FB Vegetables and Produce</option>
+          <option value=" Medical - BioTech">Medical - BioTech</option>
+          <option value=" Medical - Devices">Medical - Devices</option>
+          <option value=" Medical - Healthcare">Medical - Healthcare</option>
+          <option value=" Medical - Pharma">Medical - Pharma</option>
+    </select>
+  </td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Contact Type</td>
+      <td class='td_1'>
+        <select name='ContactType' value={{data.contact_type}}>
+          <option value="HA Contact">HR Contact</option>
+          <option value="HR Contact">HA Contact</option>
+        </select>
+      </td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Source</td>
+      <td class='td_1'>
+        <select name='Source' value={{data.source}}>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="CompanyWebsite">Company Website</option>
+            <option value="Others">Others</option>
+        </select></td>
+    </tr>
+    <tr class='tr'>
+
+      <td class='td_1'>Sourced by</td>
+      <td class='td_1'><input class="input_box" type="text" size="30" name="SourcedBy" value={{data.sourced_by}}></td>
+
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Source Type</td>
+      <td class='td_1'><input class="input_box" type="text" size="30" name="SourceType" value={{data.source_type}}></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Other Information</td>
+      <td class='td_1'><input class="input_box" type="text" size="30" name="OtherInformation" value={{data.other_information}}></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Listed</td>
+      <td class='td_1'>
+        <select name='listed' value={{data.listed}}>
+          <option value="True">Yes</option>
+          <option value="False">No</option>
+        </select>
+      </td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Do Not Email</td>
+      <td class='td_1'><input type="checkbox" name="DoNotEmail" class='checkbox'checked/></td>
+    </tr>
+
+    <tr>
+      <td>
+        <a href="{% url 'delete'  id=data.id  %}"><input class='button_edit' name='delete' value='Delete'></a>
+      </td>
+      <td>
+        <input  type ='submit'  class='button_edit' name='edit' value='Save'></a>
+      </td>
+      <td>
+        <a href="{% url 'cancel'  %}"> <input  type='submit' class='button_edit'  name='edit'  value='Cancel'></a>
+      </td>
+      {% endfor %}
+    </tr>
+  </form>
+</table>

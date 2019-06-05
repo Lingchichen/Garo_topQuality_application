@@ -1,0 +1,113 @@
+{% load static %}
+<head>
+    <link href="{% static 'top_qa_app/style.css' %}" rel="stylesheet"/>
+    <script>
+    function exportTableToCSV(filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("table tr");
+        //print table head
+        var row = [], cols = rows[0].querySelectorAll("td, th");
+        for (var j = 0; j < cols.length; j++)
+            row.push(cols[j].innerText);
+        csv.push(row.join(","));
+        //print table content
+        for (var i = 1; i < rows.length; i+=2) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+
+            for (var j = 0; j < cols.length; j++)
+                row.push(cols[j].innerText);
+
+            csv.push(row.join(","));
+        }
+
+        // Download CSV file
+        downloadCSV(csv.join("\n"), filename);
+    }
+    function downloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        // CSV file
+        csvFile = new Blob([csv], {type: "text/csv"});
+
+        // Download link
+        downloadLink = document.createElement("a");
+
+        // File name
+        downloadLink.download = filename;
+
+        // Create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+
+        // Hide download link
+        downloadLink.style.display = "none";
+
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
+
+        // Click download link
+        downloadLink.click();
+    }
+
+    </script>
+</head>
+<div class="body">
+    <div>
+      <img src="{% static 'top_qa_app/logo.png' %}"/>
+    </div>
+    <label class="text">Master Contact Check </label>
+    <a href="{% url 'create_contact' %} "><button class="button_3"> New</button></a>
+</div>
+<h2 class="text_2"> Search for contacts below:</h2>
+<form action="{% url 'result_contact' %} " method="get" class="box">
+    {% csrf_token %}
+    <input class="input_box" type="text" size="30" name="username" placeholder="Name/email">
+    <input class="input_box" type="text" size="30" name="category" placeholder="Title/company">
+    <input type="submit" value="search" >
+</form>
+<h3 class="text_3">Found & results</h3>
+<table class='table'name='output'>
+
+  <tr class='tr'>
+    <th class='th'>Date</th>
+    <th class='th'>First Name</th>
+    <th class='th'>Last Name</th>
+    <th class='th'>Company Name</th>
+    <th class='th'>Email</th>
+    <th class='th'>Phone</th>
+    <th class='th'>Category</th>
+    <th class='th'>Operation</th>
+ </tr>
+
+ {% for contact in contacts %}
+  <tr class='tr'>
+     <td class='td' name='date'>{{contact.date.year}}/{{contact.date.month}}/{{contact.date.day}} </td>
+     <td class='td' name='firstname'>{{contact.first_name}}</td>
+     <td class='td' name='lastname'>{{contact.last_name}}</td>
+     <td class='td' name='companyname'>{{contact.company_name}}</td>
+     <td class='td' name='email'>{{contact.email}}</td>
+     <td class='td' name='phone'>{{contact.phone}}</td>
+     <td class='td' name='category'>{{contact.category}}</td>
+     <td class='td'><a href="{% url 'edit_contact' id=contact.id %}"><button  class='button_edit' type='submit' name='edit'>Edit</button></a></td>
+   </tr>
+
+ {% endfor %}
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if contacts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ contacts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+        </span>
+
+        {% if contacts.has_next %}
+            <a href="?page={{ contacts.next_page_number }}">next</a>
+            <a href="?page={{ contacts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+<button onclick="exportTableToCSV('data.csv')"  class="button_1" >Export</button>

@@ -1,0 +1,48 @@
+{% load static %}
+<head>
+    <link href="{% static 'top_qa_app/style.css' %}" rel="stylesheet"/>
+
+</head>
+<div class="body">
+    <div>
+      <img src="{% static 'top_qa_app/logo.png' %}"/>
+    </div>
+    <label class="text">Master Contact Check </label>
+</div>
+<table class='table'>
+  {% for data in contact %}
+  <form  action="{% url 'user_save'  id=data.id %}" method='get'>
+    {% csrf_token %}
+    <tr class='tr'>
+        <td class='td_1'>Username</label></td>
+        <td class='td_1'><input class="input_box" type="text" size="30"  name="username" value="{{data.user_name}}" >{% if username_msg%}{{username_msg}}{% endif %}</td>
+    </tr>
+    <tr class='tr'>
+        <td class='td_1'>Password</label>
+        <td class='td_1'><input class="input_box" type="text" size="30" name="password" value={{data.password}}>{% if password_msg%}{{password_msg}}{% endif %}</td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Can Edit</td>
+      <td class='td_1'><input class="checkbox" type="checkbox" size="30" name="canedit" checked></td>
+    </tr>
+    <tr class='tr'>
+      <td class='td_1'>Can Add</td>
+
+        <td class='td_1'><input class="checkbox" type="checkbox" size="30" name="canadd" checked></td>
+    </tr>
+    <tr>
+      {% if not_admin %}
+      <td>
+        <a href="{% url 'user_delete' id=data.id %}"><input type="button" class='button_edit' name='delete' value='delete'></button></a>
+      </td>
+      {% endif %}
+      <td>
+      <input  type ='submit' class='button_edit' name='edit' value='Save'>
+      </td>
+      <td>
+        <a href="{% url 'user_cancel'%}"> <input type="button" class='button_edit' value='Cancel'></button></a>
+      </td>
+    </tr>
+  </form>
+  {% endfor %}
+</table>

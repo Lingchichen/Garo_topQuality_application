@@ -1,0 +1,58 @@
+{% load static %}
+<head>
+    <link href="{% static 'top_qa_app/style.css' %}" rel="stylesheet"/>
+</head>
+<script>
+function loadUrl(location){
+  window.location  = location;
+  return false;
+}
+
+
+
+</script>
+<div class="body">
+    <div>
+      <img src="{% static 'top_qa_app/logo.png' %}"/>
+    </div>
+    <label class="text">Master Contact Check </label>
+    <a href="{% url 'user_create' %} "><button class="button_3"> New</button></a>
+</div>
+<h2 class="text_2"> Search for contacts below:</h2>
+
+<h3 class="text_3">Select a user below:</h3>
+<table class='table'name='output'>
+  <tr class='tr'>
+    <th class='th'>Username</th>
+    <th class='th'>Password</th>
+    <th class='th'>Can Add</th>
+    <th class='th'>Can Edit</th>
+    <th class='th'>Admin</th>
+ </tr>
+ {% for data in contact %}
+  <tr class='tr' href="#" onclick="loadUrl('{% url 'create_edit' id=data.id %}')">
+     <td class='td' name='user_name'>{{data.user_name}} </td>
+     <td class='td' name='password'>{{data.password}}</td>
+     <td class='td' name='canadd'>{{data.can_edit}}</td>
+     <td class='td' name='canedit'>{{data.can_add}}</td>
+     <th class='th'name=isadmin>{{data.is_admin}}</th>
+ </tr>
+{% endfor%}
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if contacts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ contacts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+        </span>
+
+        {% if contacts.has_next %}
+            <a href="?page={{ contacts.next_page_number }}">next</a>
+            <a href="?page={{ contacts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
